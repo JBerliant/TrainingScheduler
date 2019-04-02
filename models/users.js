@@ -24,13 +24,23 @@ module.exports = (sequelize, DataTypes) => {
       },
       aboutMe: DataTypes.STRING,
       password: DataTypes.STRING,
+      userRoleId:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+
+        }
     },
-    {
       classMethods: {
         associate: function(models) {
           // associations can be defined here
+          models.Users.belongsTo(models.UserRoles,
+          {
+            foreignKey: 'userRoleID',
+            sourceKey: 'id',
+          });
+
+          },
         },
-      },
     },
   );
   Users.beforeSave(async (user) => {
