@@ -8,7 +8,7 @@ export interface ILoginResponse {
     token?: string;
 }
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AuthService {
 
     token: BehaviorSubject<string> = new BehaviorSubject<string>(null);
@@ -35,4 +35,14 @@ export class AuthService {
     logout(): void {
         this.token.next(null);
     }
+    signup(firstName: string, lastName: string, email: string, password: string): Observable<any> {
+      const data = {
+        first: firstName,
+        last: lastName,
+        email: email,
+        password: password,
+        UserRoleId: 2
+        };
+      return; // (localhost:3000);
+     }
 }

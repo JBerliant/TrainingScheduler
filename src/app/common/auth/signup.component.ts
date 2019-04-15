@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { AuthService } from './auth.service';
 
 @Component({
     templateUrl: './signup.component.html',
+    providers:[AuthService],
 })
 export class SignUpComponent {
     firstName = '';
@@ -20,6 +22,12 @@ export class SignUpComponent {
             email : this.email,
             password : this.password,
         };
+        /*{
+          this.authService.signup(newUser.firstName, newUser.lastName, newUser.email, newUser.password);{
+          console.log('tried an failed?');
+          }
+        }
+        */
         if (newUser.firstName && newUser.lastName && newUser.email && newUser.password && newUser.phone) {
           console.log(newUser);
         } else {

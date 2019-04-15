@@ -43,3 +43,7 @@ testem.log
 .DS_Store
 Thumbs.db
 package-lock.json
+Angular_notes.txt
+.vscode/settings.json
+trainer_sidelined/20190410192628-create-trainers.js
+trainer_sidelined/trainers.js

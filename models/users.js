@@ -25,24 +25,28 @@ module.exports = (sequelize, DataTypes) => {
       aboutMe: DataTypes.STRING,
       password: DataTypes.STRING,
       userRoleId:{
-        type: DataTypes.INTEGER,
+       type: DataTypes.INTEGER,
+       allowNull: false,
+        },
+      isTrainer:
+      { type: DataTypes.BOOLEAN,
         allowNull: false,
-
-        }
-    },
-      classMethods: {
-        associate: function(models) {
+        defaultValue:false,}
+    });
+        Users.associate = function(models) {
           // associations can be defined here
           models.Users.belongsTo(models.UserRoles,
           {
-            foreignKey: 'userRoleID',
+            foreignKey: 'userRoleId',
             sourceKey: 'id',
-          });
-
+            onUpdate: 'CASCADE',
+            onDelete:'SET NULL',
           },
-        },
-    },
-  );
+          );
+          models.Users.hasMany(models.Events);
+          models.Users.hasMany(models.EventRegist);
+          models.Users.hasmany(event.trainers);
+      };
   Users.beforeSave(async (user) => {
     let err;
     if (user.changed('password')) {
