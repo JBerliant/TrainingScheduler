@@ -40,6 +40,6 @@ import { EventInfoComponent } from './event-info/event-info.component';
     AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

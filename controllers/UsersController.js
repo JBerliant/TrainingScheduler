@@ -43,6 +43,22 @@ const login = async function (req, res) {
 }
 module.exports.login = login;
 
+const getAll = async function(req, res){
+  res.setHeader('Content-Type', 'application/json');
+  let err, users;
+  let whereStatement = {};
+  if (req.query.name){
+    whereStatement.name - {
+      $like: '%' + req.query.name + '%',
+    };
+  }
+  [err,users] = await to(Users.findAll({where: whereStatement, order: [['last','ASC']]}),
+  );
+  if (err) console.log(err.message);
+  return res.json(users);
+};
+module.exports.getAll = getAll;
+
 const authUser = async function (userInfo) {//returns token
 
 

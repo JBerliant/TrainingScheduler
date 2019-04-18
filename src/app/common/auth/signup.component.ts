@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     templateUrl: './signup.component.html',
-    providers:[AuthService],
 })
 export class SignUpComponent {
     firstName = '';
     lastName = '';
+    phone = '';
     email = '';
     password = '';
-    phone = '';
 
-    constructor() { }
+    constructor(private authService: AuthService, private router: Router) { }
 
     signUp(): void {
         const newUser = {
@@ -22,17 +22,27 @@ export class SignUpComponent {
             email : this.email,
             password : this.password,
         };
-        /*{
-          this.authService.signup(newUser.firstName, newUser.lastName, newUser.email, newUser.password);{
-          console.log('tried an failed?');
-          }
-        }
-        */
-        if (newUser.firstName && newUser.lastName && newUser.email && newUser.password && newUser.phone) {
-          console.log(newUser);
-        } else {
-            console.log('broken-form');
-         }
-
+      if (
+        newUser.firstName &&
+        newUser.lastName &&
+        newUser.phone &&
+        newUser.email &&
+        newUser.password
+      ) {
+        this.authService
+          .signup(
+            newUser.firstName,
+            newUser.lastName,
+            newUser.phone,
+            newUser.email,
+            newUser.password
+          ).subscribe(response => {
+            this.router.navigateByUrl('/login');
+          });
+       // console.log(newUser);
+      } else {
+        console.log('broken-form');
       }
+
+    }
 }

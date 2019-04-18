@@ -9,29 +9,30 @@ module.exports = (sequelize, DataTypes) => {
     {
       first: DataTypes.STRING,
       last: DataTypes.STRING,
-      email: {
-        type: DataTypes.STRING,
-        unique: true,
-        validate: { isEmail: { msg: 'Email is invalid' } },
-      },
       phone: {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
           len: { args: [7, 20], msg: 'Phone number invalid.' },
           isNumeric: { msg: 'Not a valid phone number.' },
-        },
+        }},
+      email: {
+        type: DataTypes.STRING,
+        unique: true,
+        validate: { isEmail: { msg: 'Email is invalid' } },
       },
-      aboutMe: DataTypes.STRING,
       password: DataTypes.STRING,
       userRoleId:{
-       type: DataTypes.INTEGER,
-       allowNull: false,
-        },
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 2,
+          },
       isTrainer:
       { type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue:false,}
+        defaultValue:false,
+      },
+      aboutMe: DataTypes.STRING,
     });
         Users.associate = function(models) {
           // associations can be defined here
@@ -41,11 +42,8 @@ module.exports = (sequelize, DataTypes) => {
             sourceKey: 'id',
             onUpdate: 'CASCADE',
             onDelete:'SET NULL',
-          },
-          );
-          models.Users.hasMany(models.Events);
-          models.Users.hasMany(models.EventRegist);
-          models.Users.hasmany(event.trainers);
+          }
+        );
       };
   Users.beforeSave(async (user) => {
     let err;

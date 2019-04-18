@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     role: DataTypes.STRING},{
   classMethods: {
     associate : function(models) {
-
+      UserRoles.hasMany(models.Users)
         }
   }
 });

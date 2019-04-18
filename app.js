@@ -69,11 +69,17 @@ if (CONFIG.app === 'dev') {
   models.sequelize.sync();
 }
 
+app.get(
+  '/users',
+  passport.authenticate('jwt', { session: false }),
+  userController.getAll,
+);
 app.post('/users', userController.create);
 app.put(
   '/users',
   passport.authenticate('jwt', { session: false }),
   userController.update,
-);
+  );
+
 app.post('/login', userController.login);
 module.exports = app;

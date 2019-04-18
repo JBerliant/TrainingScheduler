@@ -2,11 +2,12 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.addColumn('Users', 'UserRoleId', {
-      type: Sequelize.INTEGER,
+    return queryInterface.addConstraint('Users', ['userRoleId'], {
+      type: 'foreign key',
+      name: 'fk_userRoleId',
       references : {
-        model: 'UserRoles',
-        key: 'id',
+        table: 'UserRoles',
+        field: 'id',
       },
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
@@ -14,6 +15,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.removeColumn('Users', 'UserRoleId');
+    return queryInterface.removeConstraint('Users', 'fk_userRoleId');
   }
 };

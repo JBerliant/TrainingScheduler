@@ -7,8 +7,8 @@ import { AuthService } from './auth.service';
 })
 export class LoginComponent implements OnInit {
 
-    email = '';
-    password = '';
+    email = 'admin@eventr.com';
+    password = 'ABC123';
 
     constructor(
         private router: Router,

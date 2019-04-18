@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     cost: DataTypes.DECIMAL(5,2),
     description: DataTypes.TEXT,
     organizer: DataTypes.INTEGER,
-    }, {});
+    });
   Events.associate = function(models) {
     models.Events.hasOne(models.Users,{
       foreignKey: 'organizer',
@@ -15,10 +15,6 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'CASCADE',
       onDelete:'SET NULL',
     });
-    models.Events.hasMany(models.EventRegist);
-    models.Events.hasMany(models.EventTrainers);
-    //controller functions: event.create{}
-    //{validation - only admin can create event}
   };
   return Events;
 };

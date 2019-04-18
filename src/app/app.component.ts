@@ -11,12 +11,12 @@ export class AppComponent implements OnInit {
   loggedIn = false;
 
   constructor(
-    private authService: AuthService,
-  ) { }
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.authService.token
-      .subscribe((token) => this.loggedIn = token ? true : false);
+      .subscribe((token) => (this.loggedIn = token ? true : false),
+      );
   }
 
   logout(): void {

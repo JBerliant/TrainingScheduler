@@ -14,16 +14,24 @@ module.exports = {
       last: {
         type: Sequelize.STRING,
       },
-      email: {
-        type: Sequelize.STRING,
-      },
       phone: {
         type: Sequelize.STRING,
       },
-      aboutMe: {
+      email: {
         type: Sequelize.STRING,
       },
       password: {
+        type: Sequelize.STRING,
+      },
+      userRoleId:{
+        type: Sequelize.INTEGER,
+      },
+      isTrainer:{
+        type: Sequelize.BOOLEAN,
+        allowNull:false,
+        defaultValue: false,
+      },
+      aboutMe: {
         type: Sequelize.STRING,
       },
       createdAt: {

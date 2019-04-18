@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('EventTrainers', {
+    return queryInterface.createTable('Sessions', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,21 +9,39 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       eventId: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: 'Events',
-          key: 'id',
-        },
-        onUpdate:'CASCADE',
-        onDelete:'SET NULL'
+          type: Sequelize.INTEGER,
+          references:{
+            model:'Events',
+            key: 'id',
+          },
+          onUpdate: 'CASCADE',
+          onDelete:'SET NULL',
+      },
+      name: {
+        type: Sequelize.STRING
       },
       trainerId: {
         type: Sequelize.INTEGER,
         references:{
-          model: 'users',
+          model:'Users',
           key: 'id',
         },
-        onUpdate:'CASCADE',
+        onUpdate: 'CASCADE',
+        onDelete:'SET NULL',
+      },
+      start: {
+        type: Sequelize.DATE
+      },
+      end: {
+        type: Sequelize.DATE
+      },
+      createdBy:{
+        type: Sequelize.INTEGER,
+        references:{
+          model:'Users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
         onDelete:'SET NULL',
       },
       createdAt: {
@@ -37,6 +55,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('EventTrainers');
+    return queryInterface.dropTable('Sessions');
   }
 };

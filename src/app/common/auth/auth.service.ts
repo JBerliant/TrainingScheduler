@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import 'rxjs/add/operator/do';
 
 export interface ILoginResponse {
@@ -8,17 +9,22 @@ export interface ILoginResponse {
     token?: string;
 }
 
-@Injectable({providedIn: 'root'})
+export enum UserRoles{
+Admin = 1,
+User = 2,
+}
+
+@Injectable()
 export class AuthService {
 
     token: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+    // isAdmin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    constructor(
-        private http: HttpClient,
-    ) { }
+
+    constructor(private http: HttpClient) {}
 
     isAuthenticated(): boolean {
-        return this.token ? true : false;
+        return this.token.getValue() ? true : false;
     }
 
     login(email: string, password: string): Observable<ILoginResponse> {
@@ -26,23 +32,44 @@ export class AuthService {
             email: email,
             password: password,
         };
-        return this.http.post<ILoginResponse>('http://localhost:3000/login', data)
-            .do((response) => {
+        return this.http.post<ILoginResponse>('http://localhost:3000/login', data).do((response) => {
                 this.token.next(response && response.success && response.token || null);
             });
-    }
+      }
+
+
+      /*  return this.http.post<ILoginResponse>('http://localhost:3000/login', data).pipe(
+              tap((response) => {
+                this.token.next(
+                  (response && response.success && response.token) || null,
+                );
+              this.isAdmin.next(
+                response && response.success && response.user.UserRoleId === UserRoles.Admin
+               ? true
+               : false,
+               );
+              }),
+            ); */
+  // }
 
     logout(): void {
         this.token.next(null);
+  //      this.isAdmin.next(false);
     }
-    signup(firstName: string, lastName: string, email: string, password: string): Observable<any> {
+    signup(firstName: string, lastName: string,  phone: string, email: string, password: string): Observable<any> {
       const data = {
         first: firstName,
         last: lastName,
+        phone: phone,
         email: email,
         password: password,
-        UserRoleId: 2
-        };
-      return; // (localhost:3000);
-     }
+        userRoleId: 2,
+        isTrainer: 0,
+        aboutme: 'I am on Eventr.',
+      //  createdAt: new Date(),
+     //   updatedAt: new Date()
+      };
+      return this.http.post<any>('http://localhost:3000/users', data);
+  }
 }
+
