@@ -24,7 +24,7 @@ const createUser = async function (userInfo) {
   let err;
   if (validator.isEmail(userInfo.email)) {
     [err, user] = await to(Users.create(userInfo));
-    if (err) TE('User already exists with that email');
+    if (err) {console.log(err); TE('User already exists with that email');}
     return user;
   } else {
     TE('Email is invalid');
@@ -48,8 +48,8 @@ const getAll = async function(req, res){
   let err, users;
   let whereStatement = {};
   if (req.query.name){
-    whereStatement.name - {
-      $like: '%' + req.query.name + '%',
+    whereStatement.name = {
+     $like: '%' + req.query.name + '%',
     };
   }
   [err,users] = await to(Users.findAll({where: whereStatement, order: [['last','ASC']]}),
