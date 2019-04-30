@@ -12,6 +12,7 @@ export interface IUser {
   email: string;
   phone: string;
   userRoleId: number;
+  isTrainer: boolean;
   aboutMe: string;
 }
 
@@ -20,7 +21,7 @@ export interface ILoginResponse {
     token?: string;
     user: IUser;
 }
-export enum UserRoles{
+export enum UserRoles {
 Admin = 1,
 User = 2,
 }
@@ -29,7 +30,8 @@ User = 2,
 export class AuthService {
 
     token: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-    // isAdmin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    isAdmin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    isTrainer: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 
     constructor(private http: HttpClient) {}
@@ -43,29 +45,33 @@ export class AuthService {
             email: email,
             password: password,
         };
-        return this.http.post<ILoginResponse>('http://localhost:3000/login', data).do((response) => {
-                this.token.next(response && response.success && response.token || null);
-            });
-      }
+        return this.http.post<ILoginResponse>('http://localhost:3000/login', data).pipe(
+          tap((response) => {
+            this.token.next(
+              (response && response.success && response.token) || null,
+            );
+          this.isAdmin.next(
+            response && response.success && response.user.userRoleId === UserRoles.Admin
+           ? true
+           : false,
+           );
+          this.isTrainer.next(
+            response && response.success && response.user.isTrainer === true
+            ? true
+            : false,
+          );
+          }),
+        );
+ }
 
-
-      /*return this.http.post<ILoginResponse>('http://localhost:3000/login', data).pipe(
-              tap((response) => {
-                this.token.next(
-                  (response && response.success && response.token) || null,
-                );
-              this.isAdmin.next(
-                response && response.success && response.user.UserRoleId === UserRoles.Admin
-               ? true
-               : false,
-               );
-              }),
-            ); */
-  // }
+  getAll(): Observable<IUser[]> {
+  return this.http.get<IUser[]>('http://localhost:3000/users');
+  }
 
     logout(): void {
         this.token.next(null);
-  //      this.isAdmin.next(false);
+        this.isAdmin.next(false);
+        this.isTrainer.next(false);
     }
     signup(firstName: string, lastName: string,  phone: string, email: string, password: string): Observable<any> {
       const data = {
@@ -74,8 +80,8 @@ export class AuthService {
         phone: phone,
         email: email,
         password: password,
-        userRoleId: 1,
-        isTrainer: 1,
+        userRoleId: 2,
+        isTrainer: 0,
         aboutme: 'I am on Eventr.',
       //  createdAt: new Date(),
      //   updatedAt: new Date()

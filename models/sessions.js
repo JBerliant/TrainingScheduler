@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'eventId',
       sourceKey:'id',
       onUpdate: 'CASCADE',
-      onDelete:'SET NULL',
+      onDelete:'CASCADE',
     });
     models.Sessions.belongsTo(models.Users,{
       foreignKey: 'trainerId',

@@ -8,13 +8,13 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     organizer: DataTypes.INTEGER,
     });
-  /*Events.associate = function(models) {
+  Events.associate = function(models) {
     models.Events.hasOne(models.Users,{
       foreignKey: 'organizer',
       sourceKey: 'id',
       onUpdate: 'CASCADE',
       onDelete:'SET NULL',
     });
-  };*/
+  };
   return Events;
 };

@@ -6,5 +6,6 @@ export interface IEvent{
   location: Date,
   cost: number,
   description: string,
-  organizer?: IUser;
+  User?: IUser;
+  createdAt: Date;
 }

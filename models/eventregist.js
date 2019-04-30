@@ -9,13 +9,13 @@ module.exports = (sequelize, DataTypes) => {
           foreignKey:'userId',
           sourceKey: 'id',
           onUpdate: 'CASCADE',
-          onDelete:'SET NULL',
+          onDelete:'CASCADE',
       },)
       EventRegist.belongsTo(models.Events,{
           foreignKey: 'eventId',
           sourceKey: 'id',
           onUpdate: 'CASCADE',
-          onDelete:'SET NULL',
+          onDelete:'CASCADE',
       })
 
   };

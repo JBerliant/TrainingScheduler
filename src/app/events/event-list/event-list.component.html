@@ -2,10 +2,26 @@
 <div class="row">
   <div class="col-md-8">
     <label>Search:</label>
-    <input class="form-control" placeholder="search..." />
+    <input class="form-control" formControlName="query" placeholder="search..." />
+  </div>
+  <div *ngIf="isAdmin" class="col-md-2">
+    <label>Users:</label>
+    <select class="form-control" formControlName="user">
+      <option *ngFor="let u of users" [ngValue]="u">{{ u.first + ' ' + u.last }}</option>
+    </select>
   </div>
 </div>
 <br />
 <div class="list-group">
-  <!----<a href="list-group-item list-group-item-action">Event Name</a> -->
+  <a
+    *ngFor="let event of events"
+    class="list-group-item list-group-item-action float-right" (click)="goToEvent(event)"
+    routerLink="/event/{{ event.id }}"
+    >
+    {{event.name}}
+    <!--
+      <span *ngIf="isAdmin" class="float-right">{{event.user.first +' '+event.user.last}}</span>
+    -->
+  </a>
 </div>
+

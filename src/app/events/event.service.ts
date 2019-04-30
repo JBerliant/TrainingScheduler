@@ -19,14 +19,14 @@ export class EventService {
     }
   }
 
-  getById(id: number): Observable<IEvent>{
+  getById(id: number): Observable<IEvent> {
     return this.http.get<IEvent>(`http://localhost:3000/events/${id}`);
   }
 
-  get(text: string, isAdmin: boolean): Observable<IEvent[]> {
+  get(text: string, isAdmin: boolean, phone: string, userId:number): Observable<IEvent[]> {
     if (isAdmin) {
       return this.http.get<IEvent[]>(
-        `http://localhost:3000/events/admin?name=${text}`,
+        `http://localhost:3000/events/admin?name=${text}&phone=${phone}&userId=${userId > 0 ? userId : ''}`,
       );
     } else {
       return this.http.get<IEvent[]>(`http://localhost:3000/events?name=${text}`);

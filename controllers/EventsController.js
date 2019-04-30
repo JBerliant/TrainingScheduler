@@ -5,12 +5,12 @@ const create = async function(req, res) {
   res.setHeader('ContentType', 'application/json');
 
   const body = req.body;
-  body.userId = req.user.id
+  body.organizer = req.user.id;
+  // let err, event;
+  // [err, event] = await to(Events.max('id'));
+  // if (err) console.log(err.message);
+  // body.id = eventid || id === 0 ? id + 1 : 0;
 
-  [err, eventId] = await to(Events.max('eventId'));
-  if (err) console.log(err.message);
-
-  // body.eventId = eventId || eventId === 0 ? eventId + 1 : 0;
   if (!body.name) {
     return ReE(res, 'Please enter a name', 422);
   } else {
@@ -18,7 +18,6 @@ const create = async function(req, res) {
 
     [err, event] = await to(Events.create(body));
     if (err) return ReE(res, err, 422);
-
     return ReS(res, event, 201);
   }
 };
@@ -70,7 +69,7 @@ module.exports.getAll = getAll;
 
 const getEvent = async function (req,res) {
   let err, event;
-  let eventId = parseInt(req.params.eventId);
+  let eventId = parseInt(req.params.id);
   res.setHeader('Content-Type', 'application/json');
   [err,event] = await to(Events.findbypk(eventId));
   if(!event){

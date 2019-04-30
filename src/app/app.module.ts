@@ -16,7 +16,9 @@ import { TokenInterceptor } from './common/auth/token.interceptor';
 import { SignUpComponent} from './common/auth/signup.component';
 import { EventListComponent } from './events/event-list/event-list.component';
 import { EventInfoComponent } from './events/event-info/event-info.component';
-// import { EventService } from './events/event.service';
+import { NoAdminGuard } from './common/auth/no-admin.guard';
+import { NoTrainerGuard } from './common/auth/no-trainer.guard';
+import { EventService } from './events/event.service';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { EventInfoComponent } from './events/event-info/event-info.component';
   providers: [
     AuthService,
     AuthGuard,
-    // EventService,
+    EventService,
+    NoAdminGuard,
+    NoTrainerGuard,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
     bootstrap: [AppComponent]
