@@ -11,4 +11,4 @@ export class NoTrainerGuard implements CanActivate {
     const isTrainer = this.authService.isTrainer.getValue();
     return of(!isTrainer);
   }
-}0
+}
