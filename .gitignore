@@ -53,3 +53,7 @@ Angular_notes.txt
 .env
 list
 forget.sh
+/config
+config.json
+config.js
+/~forget.sh
